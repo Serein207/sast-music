@@ -59,43 +59,7 @@ QString UserProfileViewModel::getNickname() const {
 }
 
 QString UserProfileViewModel::getAvatarUrl() const {
-    return userProfileModel.avatarUrl;#include "UserProfileViewModel.h"
-#include "Model/UserProfile.h"
-#include "Service/NeteaseCloudMusic/Response/LoginStatusEntity.h"
-#include <Service/NeteaseCloudMusic/CloudMusicClient.h>
-#include <Utility/SettingsUtils.h>
-
-using namespace NeteaseCloudMusic;
-
-UserProfileViewModel::UserProfileViewModel(QObject* parent) : QObject(parent) {
-    isLogin = !(SettingsUtils::getInstance()->value("Cookies").isNull() &&
-                SettingsUtils::getInstance()->value("Cookies").toByteArray().isEmpty());
-}
-
-UserProfileViewModel* UserProfileViewModel::create(QQmlEngine*, QJSEngine*) {
-    return new UserProfileViewModel();
-}
-
-void UserProfileViewModel::loadUserProfile() {
-    if (!getIsLogin()) { // when logout
-        setUserProfileModel(UserProfile());
-        emit loadUserProfileSuccess();
-        return;
-    }
-    CloudMusicClient::getInstance()->getLoginStatus([=](Result<LoginStatusEntity> result) {
-        if (result.isErr()) {
-            emit loadUserProfileFailed(result.unwrapErr().message);
-            return;
-        }
-        auto entity = result.unwrap();
-        if (!entity.account.has_value() || entity.account.value().anonimousUser) {
-            setIsLogin(false);
-        } else {
-            setIsLogin(true);
-        }
-        setUserProfileModel(UserProfile(entity));
-        emit loadUserProfileSuccess();
-
+    return userProfileModel.avatarUrl;
 }
 
 bool UserProfileViewModel::getDefaultAvatar() const {
