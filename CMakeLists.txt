@@ -19,7 +19,6 @@ endif()
 
 find_package(Qt6 6.5 REQUIRED COMPONENTS Quick Multimedia)
 
-add_subdirectory(libs/FluentUI)
 add_subdirectory(libs/mbedtls)
 
 qt_standard_project_setup(REQUIRES 6.5)
@@ -30,6 +29,8 @@ set(FLUENTUI_BUILD_EXAMPLES OFF)
 if (CMAKE_BUILD_TYPE STREQUAL "Debug" AND LINUX)
     set(FLUENTUI_QML_PLUGIN_DIRECTORY /usr/lib/qt6/qml/FluentUI)
 endif()
+
+add_subdirectory(libs/FluentUI)
 
 file(GLOB_RECURSE SOURCE_FILES
     ${CMAKE_SOURCE_DIR}/src/*.cpp
